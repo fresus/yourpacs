@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<ServerTreeRoot xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <ServerGroupNode>
+    <ChildGroups />
+    <ChildServers>
+      <Server>
+        <NameOfServer>__UPAETITLE__</NameOfServer>
+        <Location />
+        <Host>172.21.0.1</Host>
+        <AETitle>__UPAETITLE__</AETitle>
+        <Port>1234</Port>
+        <IsStreaming>false</IsStreaming>
+        <HeaderServicePort>50221</HeaderServicePort>
+        <WadoServicePort>1000</WadoServicePort>
+      </Server>
+    </ChildServers>
+    <NameOfGroup>Yourpacs Servers</NameOfGroup>
+  </ServerGroupNode>
+  <LocalDataStoreNode>
+    <OfflineAE>__DOWNAETITLE__</OfflineAE>
+  </LocalDataStoreNode>
+</ServerTreeRoot>
