@@ -1,0 +1,160 @@
+td.controlpanel input.bsubmit {
+	border      : 0px;
+	width       : 148px;
+	height      : 35px;
+	font-size   : 16px;
+	font-weight : bold;
+	text-align  : center;
+	background-image: url(/img/bg_button.png);
+}
+
+td.controlpanel span.quota {
+	font-weight: bold;
+}
+
+td.controlpanel ul.menu {
+	list-style: none;
+}
+
+td.controlpanel ul.menu li {
+	padding-bottom: 2px;
+}
+
+td.controlpanel div.quota {
+	border  : 1px solid rgb(233, 221, 175);
+	height  : 14px;
+	margin-bottom: 4px;
+}
+
+td.controlpanel div.quota div.quotagraf {
+	background-image : url(/img/quotagraf.gif);
+	font-size        : 10px;
+	line-height      : 14px;
+	text-align       : center;
+}
+
+td.controlpanel td.logosoft {
+	text-align: center;
+	padding   : 10px;
+	height    : 80px;
+	border    : 1px solid rgb(233, 221, 175);
+}
+
+td.controlpanel table.mediawiki td {
+	padding-bottom: 3px;
+}
+
+td.controlpanel table.mediawiki input.textoption {
+	border : 1px solid rgb(233, 221, 175);
+	width  : 230px;
+}
+
+td.controlpanel table.mediawiki select {
+	border : 1px solid rgb(233, 221, 175);
+	width  : 150px;
+}
+
+td.controlpanel span.success {
+	color: green;
+	font-weight: bold;
+}
+
+td.controlpanel span.error {
+	color: red;
+	font-weight: bold;
+}
+
+td.controlpanel input.textpasswd {
+	border       : 1px solid rgb(233, 221, 175);
+	height       : 20px;
+	font-size    : 14px;
+	font-weight  : bold;
+	width        : 200px;
+}
+
+td.controlpanel div.startweb,
+td.controlpanel div.startweb * {
+	vertical-align: bottom;
+}
+
+td.controlpanel div.startweb ul {
+	list-style: none;
+}
+
+td.controlpanel div.startweb ul li {
+	padding-left: 16px;
+}
+
+td.controlpanel div.logaccess ul {
+	list-style: none;
+}
+
+td.controlpanel h2.warning {
+	color: #990000;
+	text-decoration: underline;
+}
+
+td.controlpanel span.strongwarning {
+	font-weight : bold;
+	font-size   : 14px;
+}
+
+td.controlpanel div.col {
+	float        : left;
+	margin-right : 15px;
+	width        : 160px;
+}
+
+td.controlpanel div.col2 {
+	float        : left;
+	margin-right : 15px;
+	width        : 200px;
+}
+
+td.controlpanel select {
+	border       : 1px solid rgb(233, 221, 175);
+	height       : 20px;
+	font-size    : 14px;
+	font-weight  : bold;
+	width        : 160px;
+	margin-right : 15px;
+}
+
+td.controlpanel div.separator {
+	height: 10px;
+}
+
+td.controlpanel input.text,
+td.controlpanel input.error {
+	border       : 1px solid #84c2e5;
+	height       : 20px;
+	font-size    : 14px;
+	font-weight  : bold;
+	width        : 200px;
+	margin-right : 15px;
+}
+
+td.controlpanel input.error {
+	border : 1px solid red;
+}
+
+td.controlpanel div.installsoft {
+	padding: 0px 60px 0px 60px;
+}
+
+td.controlpanel div.installsoft div {
+	padding       : 10px 0px 10px 0px;
+	float         : left;
+	width         : 75px;
+	border        : 1px solid #e9ddaf;
+	text-align    : center;
+	margin-right  : 5px;
+	margin-bottom : 5px;
+	cursor        : pointer;
+}
+
+h1 {
+    font-size:  18px;
+    margin-bottom: 5px;
+    margin-top: 5px;
+}

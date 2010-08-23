@@ -1,0 +1,175 @@
+/* FIX FOR IE, el mejor navegador de todos arg... */
+* html div { line-height: 1.2; height: 0.01%; }
+
+* {
+	margin      : 0px;
+	padding     : 0px;
+	text-align  : left;
+	font-size   : 12px;
+	font-family : Verdana, Arial, sans-serif;
+	color       : rgb(72,55,55);
+}
+
+body {
+	background-color: white;
+}
+
+img {
+	border: 0px;
+}
+
+a, a:link, a:visited, a:hover {
+	font-weight     : normal;
+	text-decoration : underline;
+}
+
+a:hover {
+	text-decoration: none;
+}
+
+table.main {
+	margin: 0 auto;
+}
+
+div.header {
+	padding : 5px 0px;
+	float   : left;
+}
+
+div.header div.logo {
+	float: left;
+    margin-left: 5px;
+}
+
+div.header div.name {
+	padding-left : 10px;
+	float        : left;
+	width        : 480px;
+}
+
+div.header div.name span.super {
+/*	font-family: "Comic Sans", "Comic Sans MS", Verdana, Arial;*/
+	font-size: 60px;
+	font-weight: bold;
+}
+
+div.header div.name span.mega {
+/*	font-family: "Comic Sans", "Comic Sans MS", Verdana, Arial;*/
+	font-weight : bold;
+	font-size   : 100px;
+}
+
+div.header div.name div.beta {
+	width        : 100px;
+	text-align   : right;
+	font-style   : italic;
+	color        : rgb(132, 194, 229);
+	font-weight  : bold;
+	padding-left : 245px;
+	font-size    : 18px;
+	margin-top   : -18px;
+}
+
+div.header div.name div.beta span.version {
+	color     : rgb(132, 194, 229);
+	font-size : 18px;
+}
+
+div.header div.headerright {
+	float: right;
+	width: 200px;
+}
+
+div.header div.headerright h2 {
+	padding-bottom: 4px;
+}
+
+div.header div.headerright td {
+	padding-bottom: 4px;
+}
+
+div.header div.headerright a {
+    margin-left: 5px;
+}
+
+div.line {
+	margin-top       : 5px;
+	background-color : rgb(132, 194, 229);
+	clear            : both;
+}
+
+div.line table {
+	margin: 0 auto;
+}
+
+div.line td.options {
+	height       : 22px;
+	padding-left : 10px;
+}
+
+div.line td.lang {
+	vertical-align : middle;
+	text-align     : right;
+	height         : 22px;
+	padding-right  : 10px;
+}
+
+div.line td.lang * {
+	vertical-align : middle;
+}
+
+div.line td.lang select {
+	background-color : rgb(132, 194, 229);
+	border           : none;
+	width            : 80px;
+}
+
+td.content {
+	padding : 10px;
+	background-color: white;
+}
+
+td.footer {
+	padding          : 5px 90px;
+	background-color : rgb(132, 194, 229);
+}
+
+td.footer div.footer {
+	text-align       : center;
+}
+
+
+/* Bordes redondos */
+div.colright {
+	width       : 200px;
+	margin-left : 10px;
+}
+.tradius {
+    border-style:solid;
+    border-width:1px;
+    border-color:#84c2e5;
+    padding: 8px;   
+}
+div.bradius {
+    border-style:solid;
+    border-width:1px;
+    border-color:#84c2e5;
+    padding: 8px;   
+    background-color: #d3dee5;
+}
+
+a.upgrade {
+    color: red;
+    font-weight: bolder;
+}
+
+h1 {
+    font-size:  18px;
+    margin-bottom: 5px;
+    margin-top: 5px;
+}
+
+li {
+    margin-left: 20px;
+    margin-top: 3px;
+}

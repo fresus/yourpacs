@@ -1,0 +1,8 @@
+
+Warning: mysql_fetch_assoc(): supplied argument is not a valid MySQL result resource in /var/www/mainsite/misc/siteMapGenerator.php on line 69
+
+Warning: mysql_fetch_assoc(): supplied argument is not a valid MySQL result resource in /var/www/mainsite/misc/siteMapGenerator.php on line 84
+
+Warning: mysql_fetch_assoc(): supplied argument is not a valid MySQL result resource in /var/www/mainsite/misc/siteMapGenerator.php on line 110
+
+Fatal error: Allowed memory size of 16777216 bytes exhausted (tried to allocate 5745749 bytes) in /var/www/mainsite/misc/siteMapGenerator.php on line 140

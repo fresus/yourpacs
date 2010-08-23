@@ -1,0 +1,18 @@
+RewriteEngine on
+Options +FollowSymlinks
+RewriteBase /
+
+# Direcciones estaticas
+RewriteRule ^ruser/([a-z]*)/(.*)$ indexr.php?url=$2
+RewriteRule ^webservice/(.*)$     index.php?section=webservice&cmd=$1
+
+RewriteRule ^(es|en|ca|it)/(recoverpass)/(.*)$   index.php?section=$2&lang=$1&hash=$3
+RewriteRule ^(es|en|ca|it)/(controlpanel)/(.*)$  index.php?section=$2&lang=$1&key=$3
+RewriteRule ^(es|en|ca|it)/(help)/(.*)$          index.php?section=$2&lang=$1&key=$3
+
+RewriteRule ^(es|en|ca|it)/(home)/(.*)$ $1 [R=301]
+RewriteRule ^(es|en|ca|it)/(home)$      $1 [R=301]
+
+RewriteRule ^(es|en|ca|it)/(.*)$ index.php?section=$2&lang=$1
+RewriteRule ^(es|en|ca|it)$      index.php?lang=$1
+

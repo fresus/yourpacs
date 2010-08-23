@@ -1,0 +1,2 @@
+php_value open_basedir "/var/www/mainsite/:/data/:/tmp"
+php_value session.save_path "/var/www/mainsite/php_sessions"

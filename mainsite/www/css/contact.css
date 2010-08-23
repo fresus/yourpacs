@@ -1,0 +1,41 @@
+td.contact input.bsubmit {
+	border      : 0px;
+	width       : 148px;
+	height      : 35px;
+	font-size   : 16px;
+	font-weight : bold;
+	text-align  : center;
+	background-image: url(/img/bg_button.png);
+}
+
+td.contact span.success {
+	color: green;
+	font-weight: bold;
+}
+
+td.contact input.text,
+td.contact input.error,
+td.contact textarea.textarea,
+td.contact textarea.error {
+	border       : 1px solid #84c2e5;
+	height       : 20px;
+	padding-top  : 2px;
+	font-size    : 12px;
+	width        : 200px;
+	margin-right : 15px;
+}
+
+td.contact textarea.textarea,
+td.contact textarea.error {
+	height: 150px;
+	width : 500px;
+}
+
+td.contact input.error,
+td.contact textarea.error {
+	border : 1px solid red;
+}
+
+td.contact span.error {
+	color : red;
+}

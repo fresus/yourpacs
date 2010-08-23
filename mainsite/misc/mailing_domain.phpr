@@ -1,0 +1,147 @@
+<?php
+
+require_once("../lib/html_mime_mail_2.5/htmlMimeMail.php");
+
+$es_subjhtml = "Ya puedes usar tu propio dominio en Lynksee!";
+$es_bodyhtml = "
+<h1>Ya puedes usar tu propio dominio en Lynksee!</h1>
+<p>
+Desde ahora mismo, en Lynksee te ofrecemos la posibilidad de poder usar tu
+propio dominio, sin ningún coste! Si ya tienes un dominio, únicamente tendrás que
+redireccionarlo al dominio ofrecido por Lynksee, e introducirlo en tu panel
+de control. Desde ese momento, todas tus páginas pasarán a utilizar el nuevo
+dominio sin esperas, sin altas y sin cuotas, etc.<br/><br/>
+
+Así mismo, te recordamos que en estos primeros días también hemos introducido los siguientes cambios:
+<ul>
+    <li>Con el plugin Wp-installer ya puedes subir tus propios themes y plugins al Blog.</li>
+    <li>Ya puedes importar tus fotos de Flickr a tu albúm.</li>
+    <li>Hemos añadido el idioma Italiano en todos los servicios.</li>
+    <li>Se ha cambiado el sistema de estadísticas a AwStats.</li>
+    <li>Ya dispones del <a href=\"http://blog.lynksee.com\">Blog oficial de Lynksee</a>.</li>
+</ul>
+
+<br/>
+Dos de los próximos cambios que podrás disfrutar muy pronto son:
+<ul>
+    <li>Opción de instalar y desinstalar las aplicaciones desde el panel de control.</li>
+    <li>Dos servicios más: <a href=\"http://www.joomla.com/\">Joomla!</a>, para que puedas crear
+    una página web y <a href=\"http://moodle.org/\">Moodle</a>, para enseñar todo lo que sabes.</li>
+</ul>
+
+<br/><br/>
+Te damos las gracias por confiar en Lynksee, y esperamos que todas estas novedades te gusten.<br/>
+Si no quieres recibir más correos como este, puedes configurarlo en tu panel de control.<br/>
+--<br/>
+Lynksee support
+</p>
+";
+
+$ca_subjhtml = "Ja pots usar el teu propi domini a Lynksee!";
+$ca_bodyhtml = "
+<h1>Ja pots usar el teu propi domini a Lynksee!</h1>
+<p>
+Des d'ara mateix, a Lynksee t'oferim la possibilitat de poder usar teu
+propi domini, sense cap cost! Si ja tens un domini, únicament hauràs que
+redireccionar-lo al domini ofert per Lynksee, i introduir-lo al teu panell
+de control. Des d'aquell moment, totes les teves pàgines passaran a utilitzar el nou
+domini sense esperes, sense altes i sense quotes, etc.<br/><br/>
+
+Així mateix, et recordem que en aquests primers dies també hem introduït els següents canvis:
+<ul>
+	<li>Amb el plugin Wp-installer ja pots pujar els teus propis themes i plugins al Blog.</li>
+	<li>Ja pots importar les teves fotos de Flickr al teu albúm.</li>
+	<li>Hem afegit l'idioma Italià en tots els serveis.</li>
+	<li>S'ha canviat el sistema d'estadístiques a AwStats.</li>
+	<li>Ja disposes del <a href=\"http://blog.lynksee.com\">Blog oficial de Lynksee</a>.</li>
+</ul>
+
+<br/>
+Dos dels pròxims canvis de què podràs gaudir molt aviat són:
+<ul>
+	<li>Opció d'instal·lar i desinstal·lar les aplicacions des del panell de control.</li>
+	<li>Dos serveis més: <a href=\"http://www.joomla.com/\">Joomla!</a>, perquè puguis crear
+		la teva pàgina web i <a href=\"http://moodle.org/\">Moodle</a>, per ensenyar tot el que saps.</li>
+</ul>
+
+<br/><br/>
+Et donem les gràcies per confiar en Lynksee, i esperem que totes aquestes novetats t'agradin.<br/>
+Si no vols rebre més correus com aquest, pots configurar-ho al teu panell de control.<br/>
+--<br/>
+Lynksee support
+</p>
+";
+
+$en_subjhtml = "Now, you can use your own domain in Lynksee!";
+$en_bodyhtml ="
+<h1>Now, you can use your own domain in Lynksee!</h1>
+<p>
+Since right now, in Lynksee we offer you the possibility to be able to use yours
+own domain, without any cost! If you already have a domain, only have that
+redirect it to the domain offered by Lynksee, and introduce it into your control panel. Since that moment, all your pages will use your own domain without waiting, without high and without quotas, etc.
+<br/><br/>
+
+Likewise, we remind you of in these first days also our having introduced the following changes:
+<ul>
+	<li>With the plugin Wp-installer you can install your own themes and plugins in the Blog.</li>
+	<li>You can import your Flickr photos in your albúm.</li>
+	<li>Added Italian language in all services .</ li>
+	<li>Changed the statistics system to AwStats.</li>
+	<li>You can visit the <a href=\"http://blog.lynksee.com\">Lynksee Blog</a>.</li>
+</ul>
+
+<br/><br/>
+They are two of the next changes which you will be able to enjoy very soon:
+<ul>
+	<li>The installing and deinstalling the applications option (from the control panel) .</li>
+	<li>Two more services: <a href=\"http://www.joomla.com/\">Joomla!</a> for create your web page, and <a href=\"http://moodle.org/\">Moodle</a> to teach all what you know.</li>
+</ul>
+
+<br/><br/>
+We thank you for use Lynksee, and we expect that you like all these novelties .<br/>
+If you do not want to receive more e-Mails like this, you can configure it in your control panel.<br/>
+--<br/>
+Lynksee support
+</p>
+";
+
+
+
+$conn = mysql_pconnect("localhost", "root", "pepitogrillo");
+mysql_select_db("lynksee");
+mysql_query("SET NAMES `utf8`");
+
+$rs = mysql_query("SELECT * FROM account WHERE newsmail = 1 AND id_account >= 19 ORDER BY id_account ASC", $conn);
+while ($data = mysql_fetch_assoc($rs))
+{
+	if ($data['id_lang'] == 1) {
+		$subject = $es_subjhtml;
+		$body    = $es_bodyhtml;
+	}
+	else if($data['id_lang'] == 3) {
+		$subject = $ca_subjhtml;
+		$body    = $ca_bodyhtml;
+	}
+	else {
+		$subject = $en_subjhtml;
+		$body    = $en_bodyhtml;
+	}
+
+	$mail = new htmlMimeMail();
+	$mail->setHtml($body, null);
+	$mail->setReturnPath('support@lynksee.com');
+	$mail->setFrom('"Lynksee" <support@lynksee.com>');
+	$mail->setSubject($subject);
+	$mail->setHeader('X-Mailer', 'Lynksee mailer v1 (http://www.lynksee.com)');
+	$mail->setHeader('Message-ID', '<jg2nnp.rkio1@>');
+	$mail->setHeader('Content-type', 'text/html; charset="UTF-8"');
+	$result = $mail->send(array($data['email']), 'mail');
+
+	if (!$result) {
+		print_r($mail->errors);
+	} else {
+		echo "e-Mail enviado a {$data['email']}\n";
+	}
+
+	sleep(2);
+}

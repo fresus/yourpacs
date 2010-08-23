@@ -1,0 +1,328 @@
+Delivered-To: lynksee@gmail.com
+Received: by 10.86.3.7 with SMTP id 7cs200166fgc;
+        Fri, 17 Aug 2007 14:37:07 -0700 (PDT)
+Received: by 10.67.97.18 with SMTP id z18mr3273450ugl.1187386624404;
+        Fri, 17 Aug 2007 14:37:04 -0700 (PDT)
+Return-Path: <mfriedman@cpxinterctive.com>
+Received: from lynksee.com (ip-209-172-55-232.static.privatedns.com [209.172.55.232])
+        by mx.google.com with ESMTP id y34si5186432iky.2007.08.17.14.37.03;
+        Fri, 17 Aug 2007 14:37:04 -0700 (PDT)
+Received-SPF: neutral (google.com: 209.172.55.232 is neither permitted nor denied by best guess record for domain of mfriedman@cpxinterctive.com) client-ip=209.172.55.232;
+Authentication-Results: mx.google.com; spf=neutral (google.com: 209.172.55.232 is neither permitted nor denied by best guess record for domain of mfriedman@cpxinterctive.com) smtp.mail=mfriedman@cpxinterctive.com
+Received: by lynksee.com (Postfix)
+	id 5509E417DCD; Fri, 17 Aug 2007 23:36:55 +0200 (CEST)
+Delivered-To: support@lynksee.com
+Received: from p01c11o141.mxlogic.net (p01c11o141.mxlogic.net [208.65.144.64])
+	by lynksee.com (Postfix) with ESMTP id BDAEF417829
+	for <support@lynksee.com>; Fri, 17 Aug 2007 23:36:54 +0200 (CEST)
+Received: from unknown [67.153.83.50] (EHLO cpx-mail-01.cpx.nyc.local)
+	by p01c11o141.mxlogic.net (mxl_mta-5.1.0-1)
+	with ESMTP id df416c64.2102156208.181535.00-021.p01c11o141.mxlogic.net (envelope-from <mfriedman@cpxinterctive.com>);
+	Fri, 17 Aug 2007 15:37:01 -0600 (MDT)
+Received: from cpxwks01 ([172.16.1.124]) by cpx-mail-01.cpx.nyc.local with Microsoft SMTPSVC(6.0.3790.3959);
+	 Fri, 17 Aug 2007 17:35:43 -0400
+Reply-To: <MFriedman@cpxinteractive.com>
+From: "Matt Friedman" <mfriedman@cpxinterctive.com>
+To: <support@lynksee.com>
+Subject: CPX Account Verification
+Date: Fri, 17 Aug 2007 17:35:46 -0400
+Organization: CPX interactive
+Message-ID: <001e01c7e116$922cad00$7c0110ac@cpx.nyc.local>
+MIME-Version: 1.0
+Content-Type: multipart/related;
+	boundary="----=_NextPart_000_001F_01C7E0F5.0B1B0D00"
+X-Mailer: Microsoft Office Outlook 11
+Thread-Index: AcfhFpILET3uJQyoQDWt7JNfgHBdpQ==
+X-MimeOLE: Produced By Microsoft MimeOLE V6.00.2900.3138
+X-OriginalArrivalTime: 17 Aug 2007 21:35:43.0638 (UTC) FILETIME=[90B0BB60:01C7E116]
+X-TM-AS-Product-Ver: SMEX-7.5.0.1243-5.0.1021-15368.000
+X-TM-AS-Result: No--11.606500-8.000000-31
+X-TM-AS-User-Approved-Sender: No
+X-TM-AS-User-Blocked-Sender: No
+X-Spam: [F=0.0100000000; S=0.010(2007081501); SS=0.500]
+X-MAIL-FROM: <mfriedman@cpxinterctive.com>
+X-SOURCE-IP: [67.153.83.50]
+
+This is a multi-part message in MIME format.
+
+------=_NextPart_000_001F_01C7E0F5.0B1B0D00
+Content-Type: multipart/alternative;
+	boundary="----=_NextPart_001_0020_01C7E0F5.0B1B0D00"
+
+
+------=_NextPart_001_0020_01C7E0F5.0B1B0D00
+Content-Type: text/plain;
+	charset="us-ascii"
+Content-Transfer-Encoding: 7bit
+
+Hello Albert,
+
+ 
+
+This message is to inform you that you have been accepted to the CPX
+Interactive ad network. We require verification as proof of ownership of
+your site so as to prevent fraudulent accounts on the network.
+
+ 
+
+To provide this proof we ask you please post this email on a page on your
+server and provide a link for me to view it. Once this is completed the
+account will be made active and you will receive login and ad tags.
+
+ 
+
+Thank You,
+
+Matt
+
+ 
+
+ 
+
+CPX Interactive
+Matt Friedman
+Publisher Rep
+1600 Stewart Avenue
+Suite 401
+Westbury, NY 11590 
+
+E-mail/msn -  <mailto:mz@cpxinteractive.com> mfriedman@cpxinteractive.com
+AIM - mattfcpx
+
+Tel - (516) 693-6607
+
+Fax - (516) 706-7881
+
+ 
+
+
+------=_NextPart_001_0020_01C7E0F5.0B1B0D00
+Content-Type: text/html;
+	charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
+
+<html xmlns:v=3D"urn:schemas-microsoft-com:vml" =
+xmlns:o=3D"urn:schemas-microsoft-com:office:office" =
+xmlns:w=3D"urn:schemas-microsoft-com:office:word" =
+xmlns=3D"http://www.w3.org/TR/REC-html40">
+
+<head>
+<META HTTP-EQUIV=3D"Content-Type" CONTENT=3D"text/html; =
+charset=3Dus-ascii">
+<meta name=3DGenerator content=3D"Microsoft Word 11 (filtered medium)">
+<!--[if !mso]>
+<style>
+v\:* {behavior:url(#default#VML);}
+o\:* {behavior:url(#default#VML);}
+w\:* {behavior:url(#default#VML);}
+.shape {behavior:url(#default#VML);}
+</style>
+<![endif]-->
+<style>
+<!--
+ /* Font Definitions */
+ @font-face
+	{font-family:Calibri;
+	panose-1:2 15 5 2 2 2 4 3 2 4;}
+ /* Style Definitions */
+ p.MsoNormal, li.MsoNormal, div.MsoNormal
+	{margin:0in;
+	margin-bottom:.0001pt;
+	font-size:12.0pt;
+	font-family:"Times New Roman";}
+a:link, span.MsoHyperlink
+	{color:blue;
+	text-decoration:underline;}
+a:visited, span.MsoHyperlinkFollowed
+	{color:purple;
+	text-decoration:underline;}
+p.MsoAutoSig, li.MsoAutoSig, div.MsoAutoSig
+	{margin:0in;
+	margin-bottom:.0001pt;
+	font-size:11.0pt;
+	font-family:Calibri;}
+span.EmailStyle17
+	{mso-style-type:personal-compose;
+	font-family:Arial;
+	color:windowtext;}
+span.E-mailSignatureChar
+	{font-family:Calibri;}
+@page Section1
+	{size:8.5in 11.0in;
+	margin:1.0in 1.25in 1.0in 1.25in;}
+div.Section1
+	{page:Section1;}
+-->
+</style>
+<!--[if gte mso 9]><xml>
+ <o:shapedefaults v:ext=3D"edit" spidmax=3D"1026" />
+</xml><![endif]--><!--[if gte mso 9]><xml>
+ <o:shapelayout v:ext=3D"edit">
+  <o:idmap v:ext=3D"edit" data=3D"1" />
+ </o:shapelayout></xml><![endif]-->
+</head>
+
+<body lang=3DEN-US link=3Dblue vlink=3Dpurple>
+
+<div class=3DSection1>
+
+<p class=3DMsoNormal><font size=3D3 face=3D"Times New Roman"><span =
+style=3D'font-size:
+12.0pt'>Hello Albert,<o:p></o:p></span></font></p>
+
+<p class=3DMsoNormal><font size=3D3 face=3D"Times New Roman"><span =
+style=3D'font-size:
+12.0pt'>&nbsp;<o:p></o:p></span></font></p>
+
+<p class=3DMsoNormal><font size=3D3 face=3D"Times New Roman"><span =
+style=3D'font-size:
+12.0pt'>This message is to inform you that you have been accepted to the =
+CPX
+Interactive ad network. We require verification as proof of ownership of =
+your
+site so as to prevent fraudulent accounts on the =
+network.<o:p></o:p></span></font></p>
+
+<p class=3DMsoNormal><font size=3D3 face=3D"Times New Roman"><span =
+style=3D'font-size:
+12.0pt'>&nbsp;<o:p></o:p></span></font></p>
+
+<p class=3DMsoNormal><font size=3D3 face=3D"Times New Roman"><span =
+style=3D'font-size:
+12.0pt'>To provide this proof we ask you please post this email on a =
+page on
+your server and provide a link for me to view it. Once this is completed =
+the
+account will be made active and you will receive login and ad =
+tags.<o:p></o:p></span></font></p>
+
+<p class=3DMsoNormal><font size=3D3 face=3D"Times New Roman"><span =
+style=3D'font-size:
+12.0pt'>&nbsp;<o:p></o:p></span></font></p>
+
+<p class=3DMsoNormal><font size=3D3 face=3D"Times New Roman"><span =
+style=3D'font-size:
+12.0pt'>Thank You,<o:p></o:p></span></font></p>
+
+<p class=3DMsoNormal><font size=3D3 face=3D"Times New Roman"><span =
+style=3D'font-size:
+12.0pt'>Matt<o:p></o:p></span></font></p>
+
+<p class=3DMsoNormal><font size=3D2 face=3DArial><span =
+style=3D'font-size:10.0pt;
+font-family:Arial'><o:p>&nbsp;</o:p></span></font></p>
+
+<p class=3DMsoNormal><font size=3D2 face=3DArial><span =
+style=3D'font-size:10.0pt;
+font-family:Arial'><o:p>&nbsp;</o:p></span></font></p>
+
+<p class=3DMsoAutoSig><font size=3D2 face=3DCalibri><span =
+style=3D'font-size:11.0pt'><img
+width=3D195 height=3D55 id=3D"_x0000_i1025" =
+src=3D"cid:image001.gif@01C7E0F5.0AF4E760"
+alt=3D"CPX Interactive"><br>
+</span></font><font size=3D3><span style=3D'font-size:12.0pt'>Matt =
+Friedman<br>
+Publisher Rep<br>
+<span class=3Dmediumtext>1600 Stewart Avenue</span><br>
+<span class=3Dmediumtext>Suite 401</span><br>
+<span class=3Dmediumtext>Westbury, NY 11590 =
+</span></span></font><o:p></o:p></p>
+
+<p class=3DMsoAutoSig><font size=3D3 face=3DCalibri><span =
+style=3D'font-size:12.0pt'>E-mail/msn&nbsp;-
+</span></font><a href=3D"mailto:mz@cpxinteractive.com"><font =
+size=3D3><span
+style=3D'font-size:12.0pt'>mfriedman@cpxinteractive.com</span></font></a>=
+<br>
+<font size=3D3><span style=3D'font-size:12.0pt'>AIM - =
+mattfcpx</span></font><o:p></o:p></p>
+
+<p class=3DMsoAutoSig><font size=3D3 face=3DCalibri><span =
+style=3D'font-size:12.0pt'>Tel
+- (516) 693-6607</span></font><o:p></o:p></p>
+
+<p class=3DMsoAutoSig><font size=3D3 face=3DCalibri><span =
+style=3D'font-size:12.0pt'>Fax
+- (516) 706-7881</span></font><o:p></o:p></p>
+
+<p class=3DMsoNormal><font size=3D3 face=3D"Times New Roman"><span =
+style=3D'font-size:
+12.0pt'><o:p>&nbsp;</o:p></span></font></p>
+
+</div>
+
+</body>
+
+</html>
+
+------=_NextPart_001_0020_01C7E0F5.0B1B0D00--
+
+------=_NextPart_000_001F_01C7E0F5.0B1B0D00
+Content-Type: image/gif;
+	name="image001.gif"
+Content-Transfer-Encoding: base64
+Content-ID: <image001.gif@01C7E0F5.0AF4E760>
+
+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
+MzSgljmCMzUdoD1+gQA7
+
+------=_NextPart_000_001F_01C7E0F5.0B1B0D00--

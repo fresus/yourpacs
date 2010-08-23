@@ -1,0 +1,12 @@
+td.userlist div.thematic {
+	vertical-align: middle;
+	margin: 10px;
+}
+
+td.userlist div.thematic * {
+	vertical-align: middle;
+}
+
+td.userlist div.thematic h2 {
+	border-bottom: 1px solid rgb(72,55,55);
+}

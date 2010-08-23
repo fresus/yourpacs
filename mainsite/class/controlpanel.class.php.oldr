@@ -1,0 +1,866 @@
+<?php
+/**
+Section: Control Panel
+@file controlpanel.class.php
+@class Controlpanel
+@version 1.0
+@date 12 de marzo del 2007
+@author Macos Julian <marcos@lynksee.com>
+
+ * This library is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public
+ * License as published by the Free Software Foundation; either
+ * version 2.1 of the License, or (at your option) any later version.
+ *
+ * This library is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this library; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+*/
+
+class Controlpanel extends Section
+{
+	/** ************************************************************************
+	* Constructor
+	*    - @param section string (Nombre de la seccion)
+	***************************************************************************/
+	function __construct($section = null)
+	{
+		parent::__construct($section);
+
+		if (!User::getCurrentUser()) {
+			header("Location: /" . Lang::$acronym . "/newaccount");
+			exit();
+		}
+	}
+
+	/** ************************************************************************
+	* perform:
+	*   - Metodo por defecto que devuelve la clase si no se especifica nada
+	*   - @return DOM object
+	***************************************************************************/
+	public function perform()
+	{
+		# Init
+		Config::set("page", "title", Lang::get("controlpanel", "pagetitle"));
+		$user = User::getCurrentUser();
+		$key  = strtolower(trim($_GET['key'])) ? strtolower(trim($_GET['key'])) : "home";
+		#$this->defaultpass = $user->getProperty("defaultpass");
+
+		# Ejecutamos comando
+		#Connect::command("quota {$user->getProperty('login')}");
+		#$quotaused = Connect::getQuota();
+
+		#$total = time() - strtotime(date("Y-m-d", strtotime($user->getProperty("date"))));
+		#$quota = 400 + ($total * 0.000011574);
+
+		# Asignamos la quota para el contador
+		#$this->doc->appendNode("quotaused", $quotaused);
+		#$this->doc->appendNode("quotafree", substr($quota, 0, 10));
+
+		# Asignamos el porcentaje para llenar la barra
+		#$percent = $quotaused / $quota * 100;
+		#$this->doc->appendNode("quotapercent", ceil($percent));
+
+		# Datos de la cuenta
+		$this->doc->appendNode("email", $user->getProperty("email"), null, "user");
+		$this->doc->appendNode("date", date("d-m-Y H:i", strtotime($user->getProperty("date"))), null, "user");
+
+		# Factoria de opciones
+		switch ($key)
+		{
+			case "pacs":
+				$this->pacs();
+				$this->doc->appendNode("keycp", $key);
+				break;
+
+			case "payments":
+				$this->payments();
+				$this->doc->appendNode("keycp", $key);
+				break;
+
+			case "searchuser":
+				$this->searchUser();
+				$this->doc->appendNode("keycp", $key);
+				break;
+			
+            case "configaccount":
+				$this->configAccount();
+				$this->doc->appendNode("keycp", $key);
+				break;
+
+			case "invitation":
+				$this->invitation();
+				$this->doc->appendNode("keycp", $key);
+				break;
+
+			default:
+				$this->home();
+				$this->doc->appendNode("keycp", $key);
+		}
+
+		# Obtenemos si hay que mostrar el aviso y la contraseña por defecto del admin
+		#if ($this->defaultpass) {
+		#	$this->doc->appendNode("adminpassword", $user->getProperty("defaultpass"));
+		#}
+
+		return $this->show();
+	}
+
+	private function home()
+	{
+		# Init
+		$user   = User::getCurrentUser();
+		$domain = $user->getProperty("domain");
+
+		# Recorremos los softwares del usuario
+		#$sql = "SELECT software.*, software_category.name AS categoryname
+		#		FROM account_software
+		#			LEFT JOIN software ON software.id = account_software.id_software
+		#			LEFT JOIN software_category ON software_category.id = software.id_category
+		#		WHERE id_account = %i
+		#		ORDER BY software.order ASC
+		#		";
+		#Db::query($sql, array($user->getProperty("id_account")));
+		#while ($data = Db::resultOne())
+		#{
+		#	$this->doc->appendNode("item", null, $data, "homecp");
+		#}
+
+	}
+
+	private function pacs()
+	{
+		# Init
+		$user   = User::getCurrentUser();
+		$domain = $user->getProperty("domain");
+
+		# Miramos si nos llega el post
+		if ($_POST['deletedomain'])
+		{
+			if ($user->getProperty("domain"))
+			{
+				Connect::command("redir_del {$user->getProperty('domain')}");
+				Db::query("UPDATE account SET domain = '' WHERE id_account = %i", array($user->getProperty("id_account")));
+
+				# Modificamos los softs con el dominio de lynksee
+				mysql_select_db($user->getProperty("login"));
+				Db::query("UPDATE wp_options SET option_value = %s WHERE option_name = 'home' OR option_name = 'site_url'", array("http://{$user->getProperty('login')}.lynksee.com/blog"));
+				Db::query("UPDATE sab_config SET site_url = %s, sabrosus_url = %s", array("http://{$user->getProperty('login')}.lynksee.com", "http://{$user->getProperty('login')}.lynksee.com/links"));
+				# Volvemos a la DB de Lynksee
+				mysql_select_db(Config::get("db", "dbname"));
+			}
+
+			$domain = null;
+			$this->doc->appendNode("success", Lang::get("controlpanel", "success2"), null, "configdomain");
+		}
+		else if ($_POST['domain'])
+		{
+			# Init
+			$valid  = false;
+			$domain = strtolower(trim($_POST['domain']));
+
+			# Miramos si el dominio es lynksee.com
+			if (ereg("^.{1,99}\.lynksee.[a-z0-9]{1,5}$", $domain)) {
+				$valid = false;
+			}
+			else if (ereg("^lynksee.[a-z0-9]{1,5}$", $domain)) {
+				$valid = false;
+			}
+			# Miramos los dominios tipo domain.com
+			else if (ereg("^[a-z0-9\-\_]{1,99}\.[a-z0-9]{1,5}$", $domain)) {
+				$valid = true;
+			}
+			# Miramos los dominios tipo www.domain.com
+			else if (ereg("^[a-z0-9\-\_]{1,99}\.[a-z0-9\-\_]{1,99}\.[a-z0-9]{1,5}$", $domain)) {
+				$valid = true;
+			}
+			# Miramos los dominios tipo domain.com.ar
+			else if (ereg("^[a-z0-9\-\_]{1,99}\.[a-z0-9]{1,5}\.[a-z0-9]{1,5}$", $domain)) {
+				$valid = true;
+			}
+			# Miramos los dominios tipo www.domain.com.ar
+			else if (ereg("^[a-z0-9\-\_]{1,99}\.[a-z0-9\-\_]{1,99}\.[a-z0-9]{1,5}\.[a-z0-9]{1,5}$", $domain)) {
+				$valid = true;
+			}
+
+			# Si el dominio es valido comprobamos
+			if ($valid)
+			{
+				$ip1 = gethostbyname($user->getProperty("login") . ".lynksee.com");
+				$ip2 = gethostbyname($domain);
+
+				# El dominio es bueno y redirecciona correctamente
+				if ($ip1 == $ip2)
+				{
+					if ($user->getProperty("domain") != $domain)
+					{
+						# Miramos que el dominio no esta ya redireccionado
+						Db::query("SELECT * FROM account WHERE domain = %s AND id_account <> %i", array($domain, $user->getProperty("id_account")));
+						if (!Db::resultOne())
+						{
+							# Updateamos la DB de lynksee
+							Db::query("UPDATE account SET domain = %s WHERE id_account = %i", array($domain, $user->getProperty("id_account")));
+
+							# Añadimos el dominio
+							if ($user->getProperty("domain"))
+							{
+								Connect::command("redir_del {$user->getProperty('domain')}");
+							}
+							Connect::command("redir_add {$user->getProperty('login')} {$domain}");
+
+							# Modificamos los softs con el nuevo dominio
+							mysql_select_db($user->getProperty("login"));
+							Db::query("UPDATE wp_options SET option_value = %s WHERE option_name = 'home' OR option_name = 'siteurl'", array("http://{$domain}/blog"));
+							Db::query("UPDATE sab_config SET site_url = %s, sabrosus_url = %s", array("http://{$domain}", "http://{$domain}/links"));
+							# Volvemos a la DB de Lynksee
+							mysql_select_db(Config::get("db", "dbname"));
+
+							$this->doc->appendNode("success", Lang::get("controlpanel", "success"), null, "configdomain");
+						}
+						else
+						{
+							$this->doc->appendNode("error", Lang::get("controlpanel", "error1"), null, "configdomain");
+						}
+					}
+				}
+				# El dominio es bueno pero no redirecciona
+				else
+				{
+					$this->doc->appendNode("error", Lang::get("controlpanel", "error2"), null, "configdomain");
+				}
+			}
+			# El dominio no es valido
+			else
+			{
+				$this->doc->appendNode("error", Lang::get("controlpanel", "error1"), null, "configdomain");
+			}
+		}
+
+		$this->doc->appendNode("domain", $domain, null, "configdomain");
+	}
+
+	private function payments()
+	{
+		# Init
+		$user = User::getCurrentUser();
+
+		# Obtenemos la tematica del usuario
+		Db::query("SELECT * FROM thematic WHERE id_thematic = %i", array($user->getProperty("id_thematic")));
+		$tuser = Db::resultOne();
+
+		$idcat  = $_POST['thematic'] ? $_POST['thematic'] : $tuser['id_category'];
+		$idthe  = $_POST['thematicvalue'] ? $_POST['thematicvalue'] : $tuser['id_thematic'];
+		$email  = $_POST['email'] ? $_POST['email'] : $user->getProperty("email");
+		$cemail = $_POST['cemail'] ? $_POST['cemail'] : $user->getProperty("email");
+
+		$passwd  = $_POST['passwd'] ? $_POST['passwd'] : null;
+		$cpasswd = $_POST['cpasswd'] ? $_POST['cpasswd'] : null;
+
+		# Comprobamos el email
+		Db::query("SELECT * FROM account WHERE email = %s AND id_account <> %i", array(strtolower(trim($email)), $user->getProperty("id_account")));
+		$existsemail = Db::resultOne();
+
+		if ($email != $cemail)
+		{
+			$error = true;
+			$this->doc->appendNode("error", "El e-Mail no coincide");
+			$this->doc->appendNode("email", $email, array("class" => "error"));
+			$this->doc->appendNode("cemail", $cemail, array("class" => "error"));
+		}
+		else if (!ereg("[a-zA-Z0-9\.\-_]*@[a-zA-Z0-9\.\-_]*\.[a-zA-Z]{2,4}", $email))
+		{
+			$error = true;
+			$this->doc->appendNode("error", "El e-Mail es incorrecto");
+			$this->doc->appendNode("email", $email, array("class" => "error"));
+			$this->doc->appendNode("cemail", $cemail, array("class" => "error"));
+		}
+		else if ($existsemail)
+		{
+			$error = true;
+			$this->doc->appendNode("error", "El e-Mail ya está asociado a Lynksee");
+			$this->doc->appendNode("email", $email, array("class" => "error"));
+			$this->doc->appendNode("cemail", $cemail, array("class" => "error"));
+		}
+		else
+		{
+			$this->doc->appendNode("email", $email, array("class" => "text"));
+			$this->doc->appendNode("cemail", $cemail, array("class" => "text"));
+		}
+
+		# Comprobamos las contraseñas
+		if (empty($passwd) && empty($cpasswd))
+		{
+			$this->doc->appendNode("passwd", null, array("class" => "text"));
+			$this->doc->appendNode("cpasswd", null, array("class" => "text"));
+		}
+		else if ($passwd != $cpasswd)
+		{
+			if (!$error) {
+				$this->doc->appendNode("error", "Las contraseñas no coinciden");
+			}
+			$error = true;
+
+			$this->doc->appendNode("passwd", $passwd, array("class" => "error"));
+			$this->doc->appendNode("cpasswd", $cpasswd, array("class" => "error"));
+		}
+		else if (strlen($passwd) < 6)
+		{
+			if (!$error) {
+				$this->doc->appendNode("error", "La contraseña es muy corta");
+			}
+			$error = true;
+
+			$this->doc->appendNode("passwd", $passwd, array("class" => "error"));
+			$this->doc->appendNode("cpasswd", $cpasswd, array("class" => "error"));
+		}
+		else
+		{
+			$passChanged = true;
+			$this->doc->appendNode("passwd", null, array("class" => "text"));
+			$this->doc->appendNode("cpasswd", null, array("class" => "text"));
+		}
+
+		# Cambiamos los datos
+		if (isset($_POST['email']) && !$error)
+		{
+			if ($passChanged) {
+				Db::query("UPDATE account SET email = %s, id_thematic = %i, pass = %s, newsmail = %i WHERE id_account = %i", array(strtolower(trim($email)), $_POST['thematicvalue'], md5($passwd), ($_POST['newsmail'] ? 1 : 0), $user->getProperty("id_account")));
+			}
+			else {
+				Db::query("UPDATE account SET email = %s, id_thematic = %i, newsmail = %i WHERE id_account = %i", array(strtolower(trim($email)), $_POST['thematicvalue'], ($_POST['newsmail'] ? 1 : 0), $user->getProperty("id_account")));
+			}
+			$this->doc->appendNode("success", "Cambios guardados correctamente");
+
+			# Guardamos registro de cambios
+			$this->addLog($idaction = 4);
+		}
+
+		# Añadimos los nodos de las categorias
+		#$sql = "SELECT *
+		#		FROM category
+		#			LEFT JOIN category_lang ON category_lang.id_category = category.id_category
+		#		WHERE id_lang = %i
+		#		ORDER BY 'order' ASC";
+		#Db::query($sql, array(Lang::$id));
+		#foreach (Db::result() as $data)
+		#{
+		#	# Creamos el nodo de la categoria
+		#	$node  = $this->doc->appendNode("item", null, array("checked" => ($idcat == $data['id_category'] ? 1 : 0), "disabled" => ($idcat == $data['id_category'] ? 0 : 1), "name" => $data['name'], "id" => $data['id_category']), "category");
+		#	$node2 = $this->doc->appendNode("thematic", null, null, $node);
+
+		#	# Obtenemos las tematicas
+		#	$sql = "SELECT *
+		#			FROM thematic
+		#				LEFT JOIN thematic_lang ON thematic_lang.id_thematic = thematic.id_thematic
+		#			WHERE
+		#				id_lang = %i AND
+		#				id_category = %i
+		#			ORDER BY name ASC";
+		#	Db::query($sql, array(Lang::$id, $data['id_category']));
+		#	foreach (Db::result() as $data2) {
+		#		$this->doc->appendNode("item", $data2['name'], array("id" => $data2['id_thematic'], "selected" => ($idthe == $data2['id_thematic'] ? 1 : 0)), $node2);
+		#	}
+		#}
+
+		if ($_POST['email']) {
+			$this->doc->appendNode("checknewsmail", ($_POST['newsmail'] ? 1 : 0));
+		}
+		else {
+			$this->doc->appendNode("checknewsmail", $user->getProperty("newsmail"));
+		}
+
+	}
+
+	private function searchUser()
+	{
+		$user = User::getCurrentUser();
+		$dir  = "/var/www/lynksee.com/{$user->getProperty('login')}/{$user->getProperty('dir1')}/{$user->getProperty('dir2')}/";
+
+		if ($_POST['startpage'] == 1)
+		{
+			$content = "<?php header(\"Location: /index.html\"); ?>";
+
+			$f = fopen("{$dir}index.php", "w+");
+			fwrite($f, $content);
+			fclose($f);
+
+			$this->doc->appendNode("success", 1, null, "startweb");
+
+			# Guardamos registro de cambios
+			$this->addLog($idaction = 3);
+		}
+		else if ($_POST['startpage'] == 2)
+		{
+			if (trim($_POST['start']))
+			{
+				$content = "<?php header(\"Location: /{$_POST['start']}\"); ?>";
+
+				$f = fopen("{$dir}index.php", "w+");
+				fwrite($f, $content);
+				fclose($f);
+
+				$this->doc->appendNode("success", 1, null, "startweb");
+
+				# Guardamos registro de cambios
+				$this->addLog($idaction = 3);
+			}
+		}
+
+		# Obtenemos la lista de software instalado
+		Db::query("SELECT software.* FROM account_software LEFT JOIN software ON software.id = account_software.id_software WHERE id_account = %i ORDER BY software.order ASC", array($user->getProperty("id_account")));
+		$installsoft = Db::result();
+
+		# Obtenemos los datos para el XSL
+		$file = file_get_contents("{$dir}index.php");
+		ereg('on\: /(.*)?"', $file, $location);
+
+		# Miramos si la redireccion apunta a un soft instalado
+		foreach ($installsoft as $soft)
+		{
+			if (trim($location[1]) == $soft['alias'])
+			{
+				$issetsoft = true;
+				break;
+			}
+		}
+
+		if (!$issetsoft)
+		{
+			$this->doc->appendNode("startpage", 1, null, "startweb");
+			foreach ($installsoft as $soft)
+			{
+				$this->doc->appendNode("item", Lang::get("controlpanel", "my{$soft['alias']}"), array("value" => $soft['alias'], "disabled" => "disabled"), "liststartweb");
+			}
+		}
+		else
+		{
+			$this->doc->appendNode("startpage", 2, null, "startweb");
+			foreach ($installsoft as $soft)
+			{
+				$this->doc->appendNode("item", Lang::get("controlpanel", "my{$soft['alias']}"), array("value" => $soft['alias'], "checked" => (trim($location[1]) == $soft['alias'] ? 1 : 0)), "liststartweb");
+			}
+		}
+	}
+
+	private function logAccess()
+	{
+		# Init
+		$user = User::getCurrentUser();
+
+		$sql = "SELECT *
+						FROM account_action
+							LEFT JOIN action ON action.id_action = account_action.id_action
+						WHERE
+							id_account = %i AND
+							id_lang = %i
+						ORDER BY date DESC";
+		Db::query($sql, array($user->getProperty("id_account"), Lang::$id));
+		while ($data = Db::resultOne())
+		{
+			$this->doc->appendNode("item", $data['content'], array("date" => date("d-m-Y H:i", strtotime($data['date']))), "logaccess");
+		}
+	}
+
+	private function invitation()
+	{
+		# Init
+		$user = User::getCurrentUser();
+
+		# Obtenemos la lista de software instalado
+		Db::query("SELECT * FROM account_software WHERE id_account = %i", array($user->getProperty("id_account")));
+		while ($data = Db::resultOne())
+		{
+			$installsoft[$data['id_software']] = true;
+		}
+
+		$this->doc->appendNode("wordpress", null, array("activated" => ($installsoft[1] ? 1 : 0)));
+		$this->doc->appendNode("mediawiki", null, array("activated" => ($installsoft[3] ? 1 : 0)));
+
+		# Miramos si tenemos los datos del cambio de contraseña
+		if (strlen(trim($_POST["passwd"])))
+		{
+			# Miramos que la contraseña no sea la misma que la de Lynksee
+			Db::query("SELECT pass FROM account WHERE id_account = %i", array($user->getProperty("id_account")));
+			if (md5($_POST['passwd']) == Db::value("pass")) {
+				$this->doc->appendNode("error", Lang::get("controlpanel", "samepass"), null, "changepass");
+			}
+			else if (strlen($_POST['passwd']) < 6) {
+				$this->doc->appendNode("error", Lang::get("controlpanel", "shortpass"), null, "changepass");
+			}
+			else
+			{
+				# Seleccionamos la DB
+				mysql_select_db($user->getProperty("login"));
+				$pass    = md5($_POST['passwd']);
+				$gallery = $this->galleryPass($_POST['passwd']);
+
+				# Cambiamos el pass del wordpress
+				if ($installsoft[1]) {
+					Db::query("UPDATE wp_users SET user_pass = %s WHERE user_login = 'admin'", array($pass));
+				}
+
+				# Cambiamos el pass del sabrosus
+				if ($installsoft[5]) {
+					Db::query("UPDATE sab_config SET admin_pass = %s", array($pass));
+				}
+
+				# Cambiamos el pass del wiki
+				if ($installsoft[3]) {
+					Db::query("UPDATE wiki_user SET user_password = MD5(CONCAT(user_id,'-',%s)) WHERE user_name = 'Admin'", array($pass));
+				}
+
+				# Cambiamos el pass del phpBB
+				if ($installsoft[4]) {
+					Db::query("UPDATE phpbb_users SET user_password = %s WHERE username = 'admin'", array($pass));
+				}
+
+				# Cambiamos el pass del gallery
+				if ($installsoft[2]) {
+					Db::query("UPDATE g2_User SET g_hashedPassword = %s WHERE g_userName = 'admin'", array($gallery));
+					Connect::command("clean_gallery_cache {$user->getProperty('login')}");
+				}
+
+				# Cambiamos el pass del joomla
+				if ($installsoft[6]) {
+					Db::query("UPDATE jos_users SET password = %s WHERE username = 'admin'", array($pass));
+				}
+
+				# Volvemos a la DB de Lynksee
+				mysql_select_db(Config::get("db", "dbname"));
+
+				# Vaciamos el default pass de la cuenta
+				#Db::query("UPDATE account SET defaultpass = '' WHERE id_account = %i", array($user->getProperty("id_account")));
+				#$this->defaultpass = null;
+
+				# Guardamos registro de cambios
+				$this->addLog($idaction = 2);
+
+				$this->doc->appendNode("success", 1, null, "changepass");
+			}
+		}
+
+		# Obtiene el fichero de configuracion del MediaWiki
+		$wikidir = "/var/www/lynksee.com/{$user->getProperty('login')}/{$user->getProperty('dir1')}/{$user->getProperty('dir2')}/mediawiki/LocalSettings.php";
+		$file    = file_get_contents($wikidir);
+
+		# Obtiene los valores de los campos del MediaWiki
+		ereg("\\\$wgDefaultSkin[ ]*=[ ]*['\"]{1}([a-zA-Z0-9]*)['\"]{1};", $file, $skin);
+		ereg("\\\$wgLanguageCode[ ]*=[ ]*['\"]{1}([a-zA-Z0-9]*)['\"]{1};", $file, $lang);
+		ereg("\\\$wgLogo[ ]*=[ ]*['\"]{1}([a-zA-Z0-9\./\:_\-]*)['\"]{1};", $file, $logo);
+		ereg("\\\$wgSitename[ ]*=[ ]*['\"]{1}([a-zA-Z0-9 ñç\.,;_\-\#\|\=\*\:\(\)\{\}]*)['\"]{1};", $file, $site);
+
+		$file = eregi_replace("\\\$wgDefaultSkin[ ]*=[ ]*['\"]{1}[a-zA-Z0-9]*['\"]{1};", "", $file);
+		$file = eregi_replace("\\\$wgLanguageCode[ ]*=[ ]*['\"]{1}[a-zA-Z0-9]*['\"]{1};", "", $file);
+		$file = eregi_replace("\\\$wgLogo[ ]*=[ ]*['\"]{1}[a-zA-Z0-9\./\:_\-]*['\"]{1};", "", $file);
+		$file = eregi_replace("\\\$wgSitename[ ]*=[ ]*['\"]{1}[a-zA-Z0-9 ñç\.,;_\-\#\|\=\*\:\(\)\{\}]*['\"]{1};", "", $file);
+		$file = str_replace("?>", "", $file);
+		$file = trim($file);
+
+		# Miramos si tenemos los datos del MediaWiki
+		$data['title'] = trim($_POST['title']);
+		$data['title'] = str_replace("\"", "", $data['title']);
+		$data['title'] = str_replace("\$", "", $data['title']);
+		$data['title'] = str_replace("'", "", $data['title']);
+		$data['logo']  = trim($_POST['logo']);
+		$data['skin']  = trim($_POST['skin']);
+		$data['lang']  = trim($_POST['lang']);
+
+
+		if ($data['title'] && $data['skin'] && $data['lang'])
+		{
+			if ((!$data['logo'] || ereg("[a-zA-Z0-9\./\:_\-]*", $data['logo'])) && ereg("[a-zA-Z0-9 ñç\.,;_\-\#\|\=\*\:\(\)\{\}]*", $data['title']))
+			{
+				# Guardamos el fichero
+				$f = fopen($wikidir, "w+");
+				fwrite($f, $file);
+				fwrite($f, "\n\$wgDefaultSkin = '{$data['skin']}';");
+				fwrite($f, "\$wgLanguageCode = '{$data['lang']}';");
+				fwrite($f, "\$wgLogo = '{$data['logo']}';");
+				fwrite($f, "\$wgSitename = '{$data['title']}';");
+				fclose($f);
+
+				# Remplazamos valores
+				$skin[1] = $data['skin'];
+				$lang[1] = $data['lang'];
+				$logo[1] = $data['logo'];
+				$site[1] = $data['title'];
+
+				$this->doc->appendNode("success", 1, null, "mediawiki");
+
+				# Guardamos registro de cambios
+				$this->addLog($idaction = 1);
+			}
+		}
+
+		# Wordpress
+		$wpdir = "/var/www/lynksee.com/{$user->getProperty('login')}/{$user->getProperty('dir1')}/{$user->getProperty('dir2')}/blog/wp-config.php";
+		$file  = file_get_contents($wpdir);
+		ereg("WPLANG', '([a-zA-Z\_]*)'", $file, $wplang);
+
+		if (isset($_POST['wplang']))
+		{
+			if (empty($_POST['wplang']) || ereg("[a-zA-Z\_]{1,4}", $_POST['wplang']))
+			{
+				$file = eregi_replace("define \('WPLANG', '([a-zA-Z\_]*)'\);", "define ('WPLANG', '{$_POST['wplang']}');", $file);
+				# Guardamos el fichero
+				$f = fopen($wpdir, "w+");
+				fwrite($f, $file);
+				fclose($f);
+
+				# Guardamos registro de cambios
+				$this->addLog($idaction = 5);
+
+				$this->doc->appendNode("success", 1, null, "wordpress");
+				$wplang[1] = $_POST['wplang'];
+			}
+			if ($_POST['restorewp'])
+			{
+				# Seleccionamos la DB
+				mysql_select_db($user->getProperty("login"));
+
+				# Ponemos el theme por defecto y desactivamos los plugins
+				Db::query("UPDATE wp_options SET option_value = '' WHERE option_name = 'active_plugins'");
+				Db::query("UPDATE wp_options SET option_value = 'lynksee' WHERE option_name = 'template'");
+				Db::query("UPDATE wp_options SET option_value = 'lynksee' WHERE option_name = 'stylesheet'");
+
+				mysql_select_db(Config::get("db", "dbname"));
+
+				# Guardamos registro de cambios
+				$this->addLog($idaction = 8);
+			}
+		}
+
+		# Stats
+		if (isset($_POST['statspasswd']))
+		{
+			if (strlen($_POST['statspasswd']) >= 4)
+			{
+				# Guardamos nueva contraseña
+				Db::query("UPDATE account_stats SET passwd = %s WHERE id_account = %i", array(md5($_POST['statspasswd']), $user->getProperty("id_account")));
+
+				# Guardamos registro de cambios
+				$this->addLog($idaction = 6);
+
+				$this->doc->appendNode("success", 1, null, "statspasswd");
+			}
+		}
+
+		# Lista de idiomas
+		$this->doc->appendNode("listlang", null, null, "mediawiki");
+		$this->doc->appendNode("item", "Español", array("code" => "es"), "listlang");
+		$this->doc->appendNode("item", "English", array("code" => "en"), "listlang");
+		$this->doc->appendNode("item", "Català",  array("code" => "ca"), "listlang");
+		$this->doc->appendNode("item", "Italiano", array("code" => "it"), "listlang");
+
+		# Lista de temas
+		$this->doc->appendNode("listskin", null, null, "mediawiki");
+		$this->doc->appendNode("item", "standard", null, "listskin");
+		$this->doc->appendNode("item", "nostalgia", null, "listskin");
+		$this->doc->appendNode("item", "cologneblue", null, "listskin");
+		$this->doc->appendNode("item", "monobook", null, "listskin");
+
+		# Campos editables
+		$this->doc->appendNode("skin", $skin[1], null, "mediawiki");
+		$this->doc->appendNode("lang", $lang[1], null, "mediawiki");
+		$this->doc->appendNode("logo", $logo[1], null, "mediawiki");
+		$this->doc->appendNode("site", $site[1], null, "mediawiki");
+
+		# Lista de idiomas
+		$this->doc->appendNode("listlangwp", null, null, "wordpress");
+		$this->doc->appendNode("item", "Español", array("code" => "es_ES"), "listlangwp");
+		$this->doc->appendNode("item", "English", array("code" => ""), "listlangwp");
+		$this->doc->appendNode("item", "Català",  array("code" => "ca_ES"), "listlangwp");
+		$this->doc->appendNode("item", "Italiano", array("code" => "it_IT"), "listlangwp");
+
+		# Campos editables
+		$this->doc->appendNode("lang", $wplang[1], null, "wordpress");
+	}
+
+	function addLog($idaction)
+	{
+		$user = User::getCurrentUser();
+		Db::query("SELECT * FROM account_action ORDER BY date DESC");
+		if (Db::num() > 50)
+		{
+			$data = Db::resultOne();
+			Db::query("DELETE FROM account_action WHERE id = %i", array($data['id']));
+		}
+
+		Db::query("INSERT INTO account_action (id_account, id_action, date) VALUES (%i, %i, NOW())", array($user->getProperty("id_account"), $idaction));
+	}
+
+	function galleryPass($password, $salt='')
+	{
+		if (empty($salt))
+		{
+			for ($i = 0; $i < 4; $i++)
+			{
+				$char = mt_rand(48, 109);
+				$char += ($char > 90) ? 13 : ($char > 57) ? 7 : 0;
+				$salt .= chr($char);
+			}
+		}
+		else
+		{
+			$salt = substr($salt, 0, 4);
+		}
+		return $salt . md5($salt . $password);
+	}
+
+	function installsoft()
+	{
+		# Init
+		$user = User::getCurrentUser();
+
+		$node = $this->doc->appendNode("installsoft", null);
+		$node = $this->doc->appendNode("category", null, null, $node);
+
+		if ($_POST['forminstallsoft'])
+		{
+			# Miramos si tiene el check activado
+			if ($_POST['installcheck'])
+			{
+				# Recorremos el soft y miramos si esta instalado
+				Db::query("SELECT * FROM software");
+				$soft = Db::result();
+
+				# Miramos si hay alguno activado
+				foreach ($soft as $item)
+				{
+					if ($_POST["soft_{$item['id']}"] == "ok") {
+						$isset = true;
+						break;
+					}
+				}
+
+				# Tenemos alguno activado
+				if ($isset)
+				{
+					# Generamos un password aleatorio
+					$sha1 = sha1(rand(0, 9999) . microtime());
+					$pass = substr($sha1, 0, 6);
+
+					# Comparamos las peticiones
+					foreach ($soft as $item)
+					{
+						Db::query("SELECT * FROM account_software WHERE id_account = %i AND id_software = %i", array($user->getProperty("id_account"), $item['id']));
+						$data = Db::resultOne();
+
+						# Lo queremos instalar y NO lo tenemos
+						if ($_POST["soft_{$item['id']}"] == "ok" && !$data)
+						{
+							# Comando insertar
+							$name   = strtolower($item['name']);
+							Connect::command("install {$name} {$user->getProperty('login')} {$user->getProperty('dir1')} {$user->getProperty('dir2')}");
+
+							# Mysql
+							mysql_select_db($user->getProperty("login"));
+
+							# Insertamos los parametros del software
+							switch ($item['id'])
+							{
+								# 1 Wordpress
+								case 1:
+									Db::query("UPDATE wp_users SET user_pass = %s, user_email = %s WHERE user_login = 'admin'", array(md5($pass), $user->getProperty('email')));
+									Db::query("UPDATE wp_options SET option_value = %s WHERE option_name = 'admin_email'", array($user->getProperty('email')));
+									Db::query("UPDATE wp_options SET option_value = %s WHERE option_name = 'siteurl'", array("http://{$user->getProperty('login')}.lynksee.com/blog"));
+									Db::query("UPDATE wp_options SET option_value = %s WHERE option_name = 'home'", array("http://{$user->getProperty('login')}.lynksee.com/blog"));
+									Db::query("UPDATE wp_options SET option_value = %s WHERE option_name = 'blogname'", array($user->getProperty('login')));
+									break;
+								# 2 Gallery2
+								case 2:
+									$pass = $this->galleryPass($pass);
+									Db::query("UPDATE g2_User SET g_hashedPassword = %s, g_email = %s WHERE g_userName = 'admin'", array($pass, $user->getProperty('email')));
+									Db::query("UPDATE g2_PluginParameterMap SET g_parameterValue = %s WHERE g_pluginType = 'module' AND g_pluginId = 'register' AND g_parameterName = 'from'", array($user->getProperty('email')));
+									Connect::command("clean_gallery_cache {$user->getProperty('login')}");
+									break;
+								# 3 MediaWiki
+								case 3:
+									Db::query("UPDATE wiki_user SET user_password = MD5(CONCAT(user_id,'-',%s)) WHERE user_name = 'Admin'", array(md5($pass)));
+									break;
+								# 4 phpBB
+								case 4:
+									Db::query("UPDATE phpbb_users SET user_password = %s, user_email = %s WHERE username = 'admin'", array(md5($pass), $user->getProperty('email')));
+									Db::query("UPDATE phpbb_config SET config_value = %s WHERE config_name = %s", array("{$user->getProperty('login')}.lynksee.com", $user->getProperty('login')));
+									Db::query("UPDATE phpbb_config SET config_value = %s WHERE config_name = 'sitename'", array("Forum {$user->getProperty('login')}"));
+									Db::query("UPDATE phpbb_config SET config_value = %s WHERE config_name = 'server_name'", array("{$user->getProperty('login')}.lynksee.com"));
+									Db::query("UPDATE phpbb_config SET config_value = %s WHERE config_name = 'board_email'", array($user->getProperty('email')));
+									break;
+								# 5 Sabrosus
+								case 5:
+									Db::query("UPDATE sab_config SET admin_pass = %s, admin_email = %s, sabrosus_url = %s, site_url = %s", array(md5($pass), $user->getProperty('email'), "http://{$user->getProperty('login')}.lynksee.com/links", "http://{$user->getProperty('login')}.lynksee.com"));
+									break;
+								# 6 Joomla!
+								case 6:
+									Db::query("UPDATE jos_users SET password = %s, email = %s WHERE username = 'admin'", array(md5($pass), $user->getProperty('email')));
+									break;
+							}
+
+							# Volvemos a la DB de Lynksee
+							mysql_select_db(Config::get("db", "dbname"));
+
+							# Cuenta usuario
+							Db::query("INSERT INTO account_software (id_account, id_software, date) VALUES (%i, %i, %d)", array($user->getProperty("id_account"), $item['id'], date("Y-m-d H:i:s")));
+
+							# Variable para el insert
+							$insert = true;
+						}
+						# Lo queremos desinstalar y SI lo tenemos
+						else if ($_POST["soft_{$item['id']}"] == "ko" && $data)
+						{
+							# Comando eliminar
+							$name   = strtolower($item['name']);
+							Connect::command("uninstall {$name} {$user->getProperty('login')} {$user->getProperty('dir1')} {$user->getProperty('dir2')}");
+
+							# Cuenta usuario
+							Db::query("DELETE FROM account_software WHERE id_account = %i AND id_software = %i", array($user->getProperty("id_account"), $item['id']));
+						}
+					}
+
+					# Guardamos registro de cambios
+					$this->addLog($idaction = 7);
+
+					$this->doc->appendNode("success", 1, array("passwd" => $pass), "installsoft");
+				}
+				else {
+					$this->doc->appendNode("error", 1, null, "installsoft");
+				}
+			}
+			else {
+				$this->doc->appendNode("error", 2, null, "installsoft");
+			}
+		}
+
+		# Obtenemos el software instalado del usuario
+		$cursor = Db::query("SELECT * FROM software_category");
+		while ($cat = Db::resultOne("assoc", $cursor))
+		{
+			$cursor2 = Db::query("SELECT * FROM software WHERE id_category = %i ORDER BY software.order ASC", array($cat['id']));
+			if (Db::num($cursor2))
+			{
+				$node2 = $this->doc->appendNode("item", null, array("name" => $cat['name'], "id" => $cat['id']), $node);
+				$node3 = $this->doc->appendNode("software", null, null, $node2);
+
+				while ($soft = Db::resultOne("assoc", $cursor2))
+				{
+					$cursor3   = Db::query("SELECT * FROM account_software WHERE id_account = %i AND id_software = %i", array($user->getProperty("id_account"), $soft['id']));
+					$activated = Db::resultOne("assoc", $cursor3) ? "ok" : "ko";
+					$this->doc->appendNode("item", null, array(
+															"image"     => ($activated == "ok" ? $soft['image_ok'] : $soft['image_ko']),
+															"imageok"   => $soft['image_ok'],
+															"imageko"   => $soft['image_ko'],
+															"id"        => $soft['id'],
+															"name"      => $soft['name'],
+															"activated" => $activated
+															), $node3);
+				}
+			}
+		}
+	}
+
+}

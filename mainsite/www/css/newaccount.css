@@ -1,0 +1,99 @@
+td.newaccount div.onesteptitle,
+td.newaccount div.twosteptitle,
+td.newaccount div.threesteptitle {
+	background-repeat: no-repeat;
+	padding: 15px 0px 0px 55px;
+	font-weight: bold;
+	margin-bottom: 4px;
+	height: 35px;
+	font-size: 14px;
+}
+
+td.newaccount div.onesteptitle {
+    background-image: url(/img/one_small.png);
+    margin-top: 15px;
+}
+
+td.newaccount div.twosteptitle {
+	background-image: url(/img/two_small.png);
+}
+
+td.newaccount div.threesteptitle {
+	background-image: url(/img/three_small.png);
+}
+
+td.newaccount div.stepcontent {
+	margin-bottom  : 20px;
+	vertical-align : middle;
+	padding-left   : 55px;
+}
+
+td.newaccount div.stepcontent * {
+	vertical-align : middle;
+}
+
+td.newaccount div.stepcontent div.col {
+	float        : left;
+	margin-right : 15px;
+	width        : 200px;
+}
+
+td.newaccount div.stepcontent input.text,
+td.newaccount div.stepcontent input.captcha,
+td.newaccount div.stepcontent input.captchaerror,
+td.newaccount div.stepcontent input.error {
+	border       : 1px solid #84c2e5;
+	height       : 20px;
+	font-size    : 14px;
+	font-weight  : bold;
+	width        : 200px;
+	margin-right : 15px;
+}
+
+td.newaccount div.stepcontent input.error {
+	border : 1px solid red;
+}
+
+td.newaccount div.stepcontent input.captcha,
+td.newaccount div.stepcontent input.captchaerror {
+	margin-left  : 15px;
+	margin-right : 15px;
+	width        : 70px;
+}
+
+td.newaccount div.stepcontent input.captchaerror {
+	border : 1px solid red;
+}
+
+td.newaccount div.stepcontent span.error {
+	color     : red;
+}
+
+td.newaccount div.stepcontent img.captcha {
+	border: 1px solid rgb(105, 105, 105);
+}
+
+
+
+td.newaccount div.stepcontent select {
+	border       : 1px solid rgb(105, 105, 105);
+	height       : 20px;
+	font-size    : 14px;
+	font-weight  : bold;
+	width        : 200px;
+	margin-right : 15px;
+}
+
+td.newaccount div.stepcontent div.separator {
+	height: 10px;
+}
+
+td.newaccount div.stepcontent input.bsubmit {
+	border      : 0px;
+	width       : 148px;
+	height      : 35px;
+	font-size   : 16px;
+	font-weight : bold;
+	text-align  : center;
+	background-image: url(/img/bg_button.png);
+}

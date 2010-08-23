@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
+
+	<!-- Imports -->
+	<xsl:import href="imports/head.xsl" />
+	<xsl:import href="imports/header.xsl" />
+	<xsl:import href="imports/footer.xsl" />
+
+	<xsl:output method="html" indent="yes" encoding="UTF-8"/>
+	<xsl:template match="/*">
+
+		<!-- Variables -->
+		<xsl:variable name="css" select="path/css" />
+		<xsl:variable name="img" select="path/img" />
+		<xsl:variable name="js"  select="path/js"  />
+		<xsl:variable name="url">/<xsl:value-of select="//page/acronym" />/</xsl:variable>
+
+		<![CDATA[<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">]]>
+		<html>
+		<head>
+			<!-- Head -->
+			<xsl:call-template name="head" />
+        </head>
+
+		<body>
+			<table width="790" cellpadding="0" cellspacing="0" border="0" align="center" class="main">
+			<tr>
+				<td class="header">
+					<!-- Header -->
+					<xsl:call-template name="header" />
+				</td>
+			</tr>
+			<tr>
+				<td class="content">
+					<!-- ********************************************************
+					******* START ***** CONTENT ***** START ***** CONTENT *******
+					********************************************************* -->
+					<table width="100%" cellpadding="0" cellspacing="0">
+					<tr>
+							<td valign="top">
+							<div class="bradius"><div><div><div><div><div><div><div>
+								<h1><xsl:value-of select="language/home/starttitle" /></h1>
+								<p><xsl:value-of select="language/home/startdesc" /></p>
+								<p style="text-align: center;"><img src="{$img}all_home.png" alt="" title="" /></p>
+								<p><xsl:value-of select="language/home/enddesc" /></p>
+							</div></div></div></div></div></div></div></div>
+							<br/>
+							<div class="bradius"><div><div><div><div><div><div><div>
+								<h1><xsl:value-of select="language/home/createtitle" /></h1>
+								<p style="text-align: center;">
+									<img src="{$img}one.png" alt="" title="" style="margin-right: 40px;"/>
+									<img src="{$img}two.png" alt="" title="" />
+									<img src="{$img}three.png" alt="" title="" style="margin-left: 40px;"/>
+								</p>
+								<p style="text-align: center;">
+									<span style="padding-right: 40px;"><xsl:value-of select="language/home/onestep" /></span>
+									<span><xsl:value-of select="language/home/twostep" /></span>
+									<span style="padding-left: 40px;"><xsl:value-of select="language/home/threestep" /></span>
+								</p>
+									<div style="background-image: url(/img/arrow_register.png);
+												background-repeat: no-repeat;
+												background-position: right top;
+												height: 50px;
+												padding: 33px 40px 0px 0px;
+												margin: 0px;
+												text-align: right;"><a href="{$url}newaccount" style="font-size: 14px; font-weight: bold;"><xsl:value-of select="language/home/arrowcreate" /></a></div>
+
+							</div></div></div></div></div></div></div></div>
+							<br/>
+
+							<!-- Last posts -->
+							<div class="bradius"><div><div><div><div><div><div><div>
+								<h1><xsl:value-of select="language/home/lastposts" /></h1>
+								<script type="text/javascript">
+									var posts = Array();<xsl:for-each select="lastpostsblog/item">posts.push(Array("<xsl:value-of select="@login" />", "<xsl:value-of select="@url" />", "<xsl:value-of select="@date" />", "<xsl:value-of select="." />"));</xsl:for-each>
+								</script>
+
+								<div id="lastpostsblog" style="height: 265px; overflow: hidden; padding-left: 4px;">
+									<xsl:for-each select="lastpostsblog/item">
+										<a href="http://{@login}.lynksee.com" style="vertical-align: middle;"><img src="{$img}ico_page.png" alt="Web" title="Web" style="vertical-align: middle;" border="0"/></a>
+										<xsl:text> </xsl:text>
+										<a href="http://{@login}.lynksee.com/blog/?feed=rss2" style="vertical-align: middle;"><img src="/img/ico_rss.png" alt="Rss" title="Rss" style="vertical-align: middle;" border="0"/></a>
+										<xsl:text> </xsl:text>
+										<a href="{@url}" style="vertical-align: middle;"><xsl:value-of select="." /></a><br/>
+									</xsl:for-each>
+								</div>
+								<br/>
+
+								<script tyle="text/javascript">
+									moveLastPosts('lastpostsblog');
+								</script>
+							</div></div></div></div></div></div></div></div>
+						</td>
+						<td valign="top">
+							<div class="bradius colright"><div><div><div><div><div><div><div>
+									<p style="text-align: center;">
+										<br/>
+										<img src="{$img}logos/wordpress.png" alt="Wordpress" title="Wordpress"/>
+										<br/>
+										<img src="{$img}logos/gallery2.png" alt="Gallery2" title="Gallery2"/>
+										<br/>
+										<br/>
+										<img src="{$img}logos/joomla.png" alt="Joomla!" title="Joomla!"/>
+										<br/>
+										<img src="{$img}logos/mediawiki.png" alt="MediaWiki" title="MediaWiki"/>
+										<br/>
+										<br/>
+										<br/>
+										<img src="{$img}logos/sabrosus2.png" alt="Sabrosus" title="Sabrosus"/>
+										<br/>
+										<br/>
+										<br/>
+										<img src="{$img}logos/phpbb.png" alt="phpBB" title="phpBB"/>
+										<br/>
+										<br/>
+										<img src="{$img}logos/awstats.png" alt="Awstats" title="Awstats"/>
+									</p>
+							</div></div></div></div></div></div></div></div>
+
+							<br/>
+
+							<div class="bradius colright"><div><div><div><div><div><div><div>
+								<h1><a href="{$url}userlist" style="font-size: 16px; font-weight: bold; text-decoration: none;"><xsl:value-of select="language/home/randomusers" /></a></h1>
+								<xsl:for-each select="randomusers/item">
+									<a href="http://{.}.lynksee.com" style="vertical-align: middle;"><img src="/img/ico_user.png" alt="Web" title="Web" style="vertical-align: middle;" border="0"/></a>
+									<xsl:text> </xsl:text>
+									<a href="http://{.}.lynksee.com" style="vertical-align: middle;"><xsl:value-of select="." /></a><br/>
+								</xsl:for-each>
+							</div></div></div></div></div></div></div></div>
+						</td>
+					</tr>
+					</table>
+					<!-- ********************************************************
+					********* END ***** CONTENT ***** END ***** CONTENT *********
+					********************************************************* -->
+				</td>
+			</tr>
+			<tr>
+				<td class="footer">
+					<!-- Footer -->
+					<xsl:call-template name="footer" />
+				</td>
+			</tr>
+			</table>
+		</body>
+		</html>
+
+	</xsl:template>
+
+</xsl:stylesheet>

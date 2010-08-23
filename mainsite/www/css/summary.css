@@ -1,0 +1,99 @@
+div.header div.name {
+	font-size   : 38px;
+	font-weight : bold;
+}
+
+div.line td.optionsright {
+	padding-right : 10px;
+	text-align    : right;
+}
+
+td.content ul {
+	list-style: none;
+}
+
+td.content ul li {
+	line-height    : 13px;
+	padding-left   : 18px;
+	padding-bottom : 6px;
+}
+
+div.bradius div div div div div div div div.wordpress {
+	background-color    : transparent;
+	background-image    : url(/img/logos/wordpress.png);
+	background-repeat   : no-repeat;
+	background-position : 100% 15px;
+	min-height          : 120px;
+}
+
+div.bradius div div div div div div div div.wordpress li {
+	background-image    : url(/img/ico_keyboard.png);
+	background-repeat   : no-repeat;
+	background-position : 0 14px;
+}
+
+div.bradius div div div div div div div div.wordpress span.date {
+	font-size: 10px;
+}
+
+div.bradius div div div div div div div div.sabrosus {
+	background-color    : transparent;
+	background-image    : url(/img/logos/sabrosus2.png);
+	background-repeat   : no-repeat;
+	background-position : 100% 15px;
+	min-height          : 120px;
+}
+
+div.bradius div div div div div div div div.sabrosus li {
+	background-image    : url(/img/ico_link.png);
+	background-repeat   : no-repeat;
+	background-position : 0 18px;
+}
+
+div.bradius div div div div div div div div.sabrosus span.date {
+	font-size: 10px;
+}
+
+div.bradius div div div div div div div div.mediawiki {
+	background-color    : transparent;
+	background-image    : url(/img/logos/mediawiki.png);
+	background-repeat   : no-repeat;
+	background-position : 100% 15px;
+	min-height          : 120px;
+}
+
+div.bradius div div div div div div div div.mediawiki li {
+	background-image    : url(/img/ico_pagetext.png);
+	background-repeat   : no-repeat;
+	background-position : 0 0px;
+}
+
+div.bradius div div div div div div div div.mediawiki span.date {
+	font-size: 10px;
+}
+
+div.bradius div div div div div div div div.gallery {
+	background-color    : transparent;
+	background-image    : url(/img/logos/gallery2.png);
+	background-repeat   : no-repeat;
+	background-position : 100% 15px;
+	min-height          : 100px;
+}
+
+div.bradius div div div div div div div div.phpbb {
+	background-color    : transparent;
+	background-image    : url(/img/logos/phpbb.png);
+	background-repeat   : no-repeat;
+	background-position : 100% 15px;
+	min-height          : 120px;
+}
+
+div.bradius div div div div div div div div.phpbb li {
+	background-image    : url(/img/ico_groupusers.png);
+	background-repeat   : no-repeat;
+	background-position : 0 13px;
+}
+
+div.bradius div div div div div div div div.phpbb span.date {
+	font-size: 10px;
+}
