@@ -101,8 +101,10 @@ Public Class YourpacsSetup
 
             ' Restart Clear canvas service
             Dim controller As New ServiceController("ClearCanvas Workstation Shred Host Service")
+            Dim timeout As New System.TimeSpan(0, 1, 0)
+
             controller.Stop()
-            controller.WaitForStatus(ServiceControllerStatus.Stopped)
+            controller.WaitForStatus(ServiceControllerStatus.Stopped, timeout)
             controller.Start()
 
             ' All work done!

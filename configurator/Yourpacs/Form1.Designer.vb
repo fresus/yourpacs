@@ -29,6 +29,8 @@ Partial Class YourpacsSetup
         Me.TextBox1 = New System.Windows.Forms.TextBox
         Me.TextBox2 = New System.Windows.Forms.TextBox
         Me.ServiceController1 = New System.ServiceProcess.ServiceController
+        Me.EventLog1 = New System.Diagnostics.EventLog
+        CType(Me.EventLog1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'Run
@@ -83,6 +85,10 @@ Partial Class YourpacsSetup
         Me.TextBox2.Size = New System.Drawing.Size(162, 20)
         Me.TextBox2.TabIndex = 8
         '
+        'EventLog1
+        '
+        Me.EventLog1.SynchronizingObject = Me
+        '
         'YourpacsSetup
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -96,6 +102,7 @@ Partial Class YourpacsSetup
         Me.Controls.Add(Me.Run)
         Me.Name = "YourpacsSetup"
         Me.Text = "Yourpacs Setup"
+        CType(Me.EventLog1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
 
@@ -107,5 +114,6 @@ Partial Class YourpacsSetup
     Friend WithEvents TextBox2 As System.Windows.Forms.TextBox
     Friend WithEvents TextBox1 As System.Windows.Forms.TextBox
     Friend WithEvents ServiceController1 As System.ServiceProcess.ServiceController
+    Friend WithEvents EventLog1 As System.Diagnostics.EventLog
 
 End Class
