@@ -101,11 +101,15 @@ Public Class YourpacsSetup
 
             ' Restart Clear canvas service
             Dim controller As New ServiceController("ClearCanvas Workstation Shred Host Service")
-            Dim timeout As New System.TimeSpan(0, 1, 0)
+            Dim timeout As New System.TimeSpan(0, 0, 40)
 
-            controller.Stop()
-            controller.WaitForStatus(ServiceControllerStatus.Stopped, timeout)
-            controller.Start()
+            Try
+                controller.Stop()
+                controller.WaitForStatus(ServiceControllerStatus.Stopped, timeout)
+                controller.Start()
+            Catch ex As Exception
+                MsgBox("Timeout restarting service, you must reboot.")
+            End Try
 
             ' All work done!
             MsgBox("YourPACS configured as user " + user)
@@ -119,6 +123,10 @@ Public Class YourpacsSetup
 
 
     Private Sub Label3_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Label3.Click
+
+    End Sub
+
+    Private Sub TextBox2_TextChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles TextBox2.TextChanged
 
     End Sub
 End Class
