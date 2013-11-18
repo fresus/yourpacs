@@ -1,0 +1,6 @@
+Build the installer
+http://nsis.sourceforge.net/Download
+
+Install firewall plugin
+http://nsis.sourceforge.net/NSIS_Simple_Firewall_Plugin
+
